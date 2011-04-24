@@ -1,0 +1,46 @@
+Time tracker design
+
+Tasks table
+Id, task name, archived, timestamps (created, updated, last used,
+inactivated), system entered, max minutes to spend in one sitting, use
+count?, round up to nearest x,
+Row 1 is idle time
+
+Categories table
+Id, category name, archived
+
+Entries table
+Id, task id, start time, end time, duration in mins exact, parsed
+year, duration rounded up
+
+Categorized tasks table (m to m)
+Task id, category Id
+
+User actions
+Starting the app for the first time - create an idle entry and start it
+Start a task, from idle to a selected task
+End a task, from current task to idle
+Switch to a task, from current task to a selected task
+
+Report to google doc or a csv file on dropbox or just the file system
+on android.
+
+Crud on tasks
+Crud on categories
+Adding categories to a task
+Crud on entries
+Notification when entry is at max time
+
+Wish list
+Graph of time used by category or task
+Totals by week, month, year, etc.
+Templates for a regular week (how to do templates intuitively?) need
+notifications too
+Centralized server for this?
+Create widget on android?
+
+Questions
+In app ad on android? Not sure if this really works that well. Mostly
+expect the user to be using the widget
+Integrate with locale on android?
+How to resolve ongoing task vs. A template task?
