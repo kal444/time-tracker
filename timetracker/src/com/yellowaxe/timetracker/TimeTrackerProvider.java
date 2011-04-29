@@ -10,55 +10,39 @@ public class TimeTrackerProvider extends ContentProvider {
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
-    private static final int ENTRIES_1 = 1;
+    private static final int ENTRIES_URL_MATCHED = 1;
 
-    private static final int TASKS_2 = 2;
+    private static final int TASKS_URL_MATCHED = 2;
 
-    private static final int CATEGORIES_3 = 3;
+    private static final int CATEGORIES_URL_MATCHED = 3;
+
+    private static final int ENTRY_URL_MATCHED = 4;
+
+    private static final int TASK_URL_MATCHED = 5;
+
+    private static final int CATEGORY_URL_MATCHED = 6;
+
+    private DatabaseOpenHelper dbOpenHelper;
 
     static {
-        URI_MATCHER.addURI(Contract.AUTHORITY, "entries", ENTRIES_1);
-        URI_MATCHER.addURI(Contract.AUTHORITY, "tasks", TASKS_2);
-        URI_MATCHER.addURI(Contract.AUTHORITY, "categories", CATEGORIES_3);
-    }
-
-    public static class Contract {
-
-        public static final String AUTHORITY = "com.yellowaxe.timetracker";
-
-        private static final String SCHEME = "content://";
-
-        private static final String PATH_ENTRIES = "/entries";
-
-        private static final String PATH_TASKS = "/tasks";
-
-        private static final String PATH_CATEGORIES = "/categories";
-
-        public static final Uri URI_ENTRIES = Uri.parse(SCHEME + AUTHORITY + PATH_ENTRIES);
-
-        public static final Uri URI_TASKS = Uri.parse(SCHEME + AUTHORITY + PATH_TASKS);
-
-        public static final Uri URI_CATEGORIES = Uri.parse(SCHEME + AUTHORITY + PATH_CATEGORIES);
-
-        public static final String TYPE_ENTRIES = "vnd.android.cursor.dir/vnd.timetracker.entry";
-
-        public static final String TYPE_TASKS = "vnd.android.cursor.dir/vnd.timetracker.task";
-
-        public static final String TYPE_CATEGORIES =
-            "vnd.android.cursor.dir/vnd.timetracker.category";
-
+        URI_MATCHER.addURI(Contract.AUTHORITY, "entries", ENTRIES_URL_MATCHED);
+        URI_MATCHER.addURI(Contract.AUTHORITY, "tasks", TASKS_URL_MATCHED);
+        URI_MATCHER.addURI(Contract.AUTHORITY, "categories", CATEGORIES_URL_MATCHED);
+        URI_MATCHER.addURI(Contract.AUTHORITY, "entries/#", ENTRY_URL_MATCHED);
+        URI_MATCHER.addURI(Contract.AUTHORITY, "tasks/#", TASK_URL_MATCHED);
+        URI_MATCHER.addURI(Contract.AUTHORITY, "categories/#", CATEGORY_URL_MATCHED);
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-                        String sortOrder) {
+    public Uri insert(Uri uri, ContentValues values) {
 
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+                        String sortOrder) {
 
         // TODO Auto-generated method stub
         return null;
@@ -81,20 +65,27 @@ public class TimeTrackerProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
 
-        // TODO Auto-generated method stub
-        return false;
+        dbOpenHelper = new DatabaseOpenHelper(getContext());
+
+        return true;
     }
 
     @Override
     public String getType(Uri uri) {
 
         switch (URI_MATCHER.match(uri)) {
-        case ENTRIES_1:
+        case ENTRIES_URL_MATCHED:
             return Contract.TYPE_ENTRIES;
-        case TASKS_2:
+        case ENTRY_URL_MATCHED:
+            return Contract.TYPE_ENTRY;
+        case TASKS_URL_MATCHED:
             return Contract.TYPE_TASKS;
-        case CATEGORIES_3:
+        case TASK_URL_MATCHED:
+            return Contract.TYPE_TASK;
+        case CATEGORIES_URL_MATCHED:
             return Contract.TYPE_CATEGORIES;
+        case CATEGORY_URL_MATCHED:
+            return Contract.TYPE_CATEGORY;
         default:
             return null;
         }
